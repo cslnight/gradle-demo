@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    /* maven中有task install */
+    id 'maven'
+}
+
+group 'org.cslnight'
+version '1.0'
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+}
+/* sources jar 追加到task*/
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+jar.dependsOn(sourcesJar)
+
+/* install 中追加sourcesJar*/
+artifacts {
+    archives sourcesJar
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.12'
+}
